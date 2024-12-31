@@ -1,0 +1,144 @@
+[ "$TERM" = "dumb" ] && return
+
+setopt nobeep
+setopt hist_ignore_all_dups share_history hist_ignore_space
+setopt extended_glob
+
+PROMPT='%2F%n%f@%m %5F%~%f%(1v. (%1v%).)%(0?.. %1F[%?]%f) %(!.#.$) '
+
+# Use emacs keybindings even if our EDITOR is set to vi
+bindkey -e
+
+HISTSIZE=100000
+SAVEHIST=100000
+HISTFILE=~/.zsh_history
+
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+alias reset='tput reset'
+alias info='info --vi-keys'
+
+alias sctl='systemctl'
+alias uctl='systemctl --user'
+alias jctl='journalctl'
+
+alias pushdmoi='pushd "$(chezmoi source-path "${PWD}" || chezmoi source-path)"'
+alias xclip="xclip -selection c"
+alias visudo='sudo -E visudo'
+alias yt-dlp="yt-dlp --embed-metadata --sponsorblock-remove sponsor"
+
+alias tmux-refresh='eval "$("tmux" show-env -s)"'
+hash systemd-run 2>/dev/null && alias tmux='systemd-run -q --user --scope tmux'
+
+git-publish() {
+  git push -u "$1" "$(git symbolic-ref --short HEAD)"
+}
+
+venv() {
+  if [[ -v VIRTUAL_ENV ]]; then
+    echo 'You already are in a virtualenv. Enter `deactivate` to exit.'
+    return 1
+  fi
+  local venv="${1:-venv}"
+  [ -d "${venv}" ] || python3 -m venv "${venv}"
+  source "${venv}/bin/activate"
+}
+
+appimage-desktop() {
+  set +m
+  local fifo=$(mktemp -u)
+  mkfifo -m 600 "${fifo}"
+  "$1" --appimage-mount > "${fifo}" &
+  local appimage_pid=$!
+  for d in "$(head -n 1 "$fifo")"/*.desktop; do
+    echo "Installing $d"
+    install -Dm644 "$(realpath "$d")" -t ~/.local/share/applications
+  done
+  kill -s INT ${appimage_pid}
+  rm "$fifo"
+  set -m
+}
+
+hash pyenv 2>/dev/null && eval "$(pyenv init -)"
+
+source ~/.local/share/zsh/chezmoi.zsh
+
+fpath=("${ZSH_COMPLETIONS_PATH}" "${ZSH_PLUGIN_PATH}/zsh-completions" $fpath)
+
+autoload -Uz vcs_info
+autoload -Uz compinit
+
+zstyle ':vcs_info:*' enable git svn
+zstyle ':vcs_info:git*' formats '%b'
+
+precmd() {
+    psvar=()
+
+    vcs_info
+    [[ -n $vcs_info_msg_0_ ]] && print -v 'psvar[1]' -Pr -- "$vcs_info_msg_0_"
+}
+
+# Use modern completion system
+compinit
+
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=240"
+source "${ZSH_PLUGIN_PATH}/zsh-autosuggestions/zsh-autosuggestions.zsh"
+
+hash dircolors 2>/dev/null && eval "$(dircolors -b ~/.config/dircolors)"
+
+if [[ ! -v key ]]; then
+  typeset -A key
+  key=(
+    BackSpace  "${terminfo[kbs]}"
+    Home       "${terminfo[khome]}"
+    End        "${terminfo[kend]}"
+    Insert     "${terminfo[kich1]}"
+    Delete     "${terminfo[kdch1]}"
+    Up         "${terminfo[kcuu1]}"
+    Down       "${terminfo[kcud1]}"
+    Left       "${terminfo[kcub1]}"
+    Right      "${terminfo[kcuf1]}"
+    PageUp     "${terminfo[kpp]}"
+    PageDown   "${terminfo[knp]}"
+  )
+fi
+
+bindkey "${key[Up]}" up-line-or-search
+bindkey "${key[Down]}" down-line-or-search
+
+bindkey "${key[PageUp]}" up-line-or-search
+bindkey "${key[PageDown]}" down-line-or-search
+
+setopt always_to_end
+
+zstyle ':completion:*' completer _complete _correct _approximate
+zstyle ':completion::complete:*' use-cache true
+zstyle ':completion:*:default' menu select=2
+zstyle ':completion:*:matches' group yes
+zstyle ':completion:*:options' description yes
+zstyle ':completion:*:options' auto-description '%d'
+# zstyle ':completion:*' completer _expand _complete _correct _approximate
+zstyle ':completion:*:corrections' format '%F{green}-- %d (errors: %e) --%f'
+zstyle ':completion:*:descriptions' format '%F{yellow}-- %d --%f'
+zstyle ':completion:*:messages' format '%F{purple}-- %d --%f'
+zstyle ':completion:*:warnings' format '%F{red}-- no matches found --%f'
+zstyle ':completion:*' format '%F{yellow}-- %d --%f'
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*' verbose true
+zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
+
+zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*:cd:*:directory-stack' menu yes select
+zstyle ':completion:*' squeeze-slashes true
+
+zstyle ':completion:*:history-words' stop true
+zstyle ':completion:*:history-words' remove-all-dups true
+zstyle ':completion:*:history-words' list false
+zstyle ':completion:*:history-words' menu yes
+
+zstyle ':completion:*:manuals' separate-sections true
+zstyle ':completion:*:manuals.(^1*)' insert-sections true
+
+source "${ZSH_PLUGIN_PATH}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"

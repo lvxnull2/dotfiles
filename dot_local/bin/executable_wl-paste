@@ -1,0 +1,11 @@
+#!/bin/bash
+
+set -euo pipefail
+
+if hash dos2unix 2>/dev/null; then
+  alias filter_cr="dos2unix"
+else
+  alias filter_cr="sed 's/\r$//'"
+fi
+
+/usr/bin/wl-paste "$@" | filter_cr

@@ -1,0 +1,33 @@
+#info
+h	backward-char
+l	forward-char
+
+gg	beginning-of-node
+G	end-of-node
+
+0	beginning-of-line
+$	end-of-line
+
+e	forward-word
+b	backward-word
+
+n	search-next
+N	search-previous
+
+gn	goto-node
+
+\r	select-reference-this-line
+
+u	up-node
+<	first-node
+>	last-node
+d	dir-node
+
+
+#var
+cursor-movement-scrolls=Off
+match-style=bgmagenta,black
+link-style=cyan,underline
+active-link-style=bgblack,magenta
+
+# vim: noet sw=0

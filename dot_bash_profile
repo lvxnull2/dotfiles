@@ -1,0 +1,4 @@
+# shellcheck shell=bash disable=1090
+
+[[ -f ~/.profile ]] && . ~/.profile
+[[ -f ~/.bashrc ]] && . ~/.bashrc

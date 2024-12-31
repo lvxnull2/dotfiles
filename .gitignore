@@ -1,0 +1,2 @@
+# Never add compiled spellcheck files for vim
+*.spl

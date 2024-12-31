@@ -1,0 +1,10 @@
+{{- $isWSL := and (eq .chezmoi.os "linux")
+                  (.chezmoi.kernel.osrelease | lower | contains "microsoft") -}}
+[data]
+isWSL={{ $isWSL }}
+
+[data.zsh]
+completions=".local/share/zsh/completions"
+plugins=".local/share/zsh/plugins"
+
+# vim: ft=toml

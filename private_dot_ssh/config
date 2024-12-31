@@ -1,0 +1,15 @@
+Include config.d/*
+
+Host lesbnyan
+    User emily
+    Hostname 10.0.0.1
+
+Host girlkeep
+    User emily
+    Hostname 10.0.0.7
+
+Host github
+    User git
+    Hostname github.com
+
+# vim: ft=sshconfig

@@ -1,0 +1,16 @@
+# Ignore vim compiled dictionary
+**/nvim/spell/*.spl
+
+{{- if not .isWSL }}
+.local/bin/wl-paste
+{{- end }}
+
+{{- if ne .chezmoi.hostname "lesbnyan" }}
+.ssh/config.d/lesbnyan
+{{- end }}
+
+{{- if ne .chezmoi.hostname "girlbian" }}
+.ssh/config.d/girlbian
+{{- end }}
+
+# vim: ft=gitignore

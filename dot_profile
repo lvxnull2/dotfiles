@@ -1,0 +1,45 @@
+# shellcheck shell=bash
+
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_STATE_HOME="$HOME/.local/state"
+export XDG_CACHE_HOME="$HOME/.cache"
+
+path_should_add() {
+  case ":$PATH:" in (*":$1:"*) ! :;; esac && [ -d "$1" ]
+}
+
+pathadd() {
+  path_should_add "$1" && PATH="${PATH:+"$PATH:"}$1"
+}
+
+pathadd_prepend() {
+  path_should_add "$1" && PATH="$1${PATH:+":$PATH"}"
+}
+
+export PYENV_ROOT="$HOME/.pyenv"
+
+pathadd_prepend "${PYENV_ROOT}/bin"
+pathadd_prepend "$HOME/.local/bin"
+pathadd "$HOME/.yarn/bin"
+pathadd "$HOME/.cargo/bin"
+pathadd "$HOME/.local/opt/go/bin"
+
+export GNUPGHOME="$XDG_DATA_HOME/gnupg"
+export _JAVA_OPTIONS="-Djava.util.prefs.userRoot=$XDG_CONFIG_HOME/java"
+export GRADLE_USER_HOME="$XDG_DATA_HOME/gradle"
+export NODE_REPL_HISTORY="$XDG_DATA_HOME/node_repl_history"
+export ERRFILE="$XDG_CACHE_HOME/X11/xsession-errors"
+export ICEAUTHORITY="$XDG_CACHE_HOME/ICEauthority"
+export EDITOR="nvim"
+export VISUAL="nvim"
+export npm_config_prefix="$HOME/.local"
+export LANG="${LANG:-C.UTF-8}"
+export LC_COLLATE="C.UTF-8"
+export GOBIN="$HOME/.local/bin"
+export GOPATH="$HOME/.local/lib/go"
+export ANSIBLE_CACHE_PLUGIN=jsonfile
+export ANSIBLE_CACHE_PLUGIN_CONNECTION=facts.json
+export REGISTRY_AUTH_FILE="${XDG_CONFIG_HOME}/containers/auth.json"
+
+[ -n "${DISPLAY}" ] && hash xrdb 2>/dev/null && xrdb ~/.Xresources

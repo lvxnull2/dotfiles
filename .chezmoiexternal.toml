@@ -1,0 +1,14 @@
+["{{ .zsh.plugins }}/zsh-autosuggestions"]
+type="git-repo"
+url="https://github.com/zsh-users/zsh-autosuggestions.git"
+exact=true
+
+["{{ .zsh.plugins }}/zsh-completions"]
+type="git-repo"
+url="https://github.com/zsh-users/zsh-completions.git"
+exact=true
+
+["{{ .zsh.plugins }}/zsh-syntax-highlighting"]
+type="git-repo"
+url="https://github.com/zsh-users/zsh-syntax-highlighting.git"
+exact=true

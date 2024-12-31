@@ -1,0 +1,19 @@
+[init]
+	defaultBranch = "main"
+
+[user]
+	name = lvxnull2
+	email = 184518908+lvxnull2@users.noreply.github.com
+
+[pull]
+	rebase = true
+
+[merge]
+	conflictStyle = "zdiff3"
+
+[commit]
+	verbose = true
+
+[diff]
+	algorithm = "histogram"
+# vim: noexpandtab sw=0

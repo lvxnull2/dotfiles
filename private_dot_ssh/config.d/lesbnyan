@@ -1,0 +1,7 @@
+Host girlkeep-rsync
+    User emily
+    Hostname 10.0.0.7
+    IdentityFile ~/.ssh/id_rsync
+    IdentitiesOnly yes
+
+# vim: ft=sshconfig
