@@ -1,3 +1,6 @@
+README.md
+LICENSE
+
 # Ignore vim compiled dictionary
 **/nvim/spell/*.spl
 
