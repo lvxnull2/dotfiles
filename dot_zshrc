@@ -19,6 +19,7 @@ alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 alias reset='tput reset'
 alias info='info --vi-keys'
+alias rsync='rsync -avhP'
 
 alias sctl='systemctl'
 alias uctl='systemctl --user'
