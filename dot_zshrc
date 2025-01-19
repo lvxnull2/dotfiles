@@ -33,6 +33,21 @@ alias yt-dlp="yt-dlp --embed-metadata --sponsorblock-remove sponsor"
 alias tmux-refresh='eval "$("tmux" show-env -s)"'
 hash systemd-run 2>/dev/null && alias tmux='systemd-run -q --user --scope tmux'
 
+podup() {
+  if [ -r systemd.env ]; then
+    set -a
+    . ./systemd.env
+    set +a
+  else
+    unset PODMAN_EXTRA_ARGS
+  fi
+  podman kube play --replace ${PODMAN_EXTRA_ARGS} pod.yaml
+}
+
+poddown() {
+  podman kube down pod.yaml
+}
+
 git-publish() {
   git push -u "$1" "$(git symbolic-ref --short HEAD)"
 }
