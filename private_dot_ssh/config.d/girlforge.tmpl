@@ -2,11 +2,11 @@
 
 Host girlforge
     User git
-{{- if ne .chezmoi.hostname "lesbnyan" }}
-    Hostname git.lesbnyan.top
-{{- else }}
+{{- if eq .chezmoi.hostname "lesbnyan" "girlkeep" }}
     Hostname 10.0.1.2
     Port 2222
+{{- else }}
+    Hostname git.lesbnyan.top
 {{- end }}
 
 # vim: ft=sshconfig
