@@ -12,8 +12,4 @@ Host github
     User git
     Hostname github.com
 
-Host girlforge
-    User git
-    Hostname git.lesbnyan.top
-
 # vim: ft=sshconfig
