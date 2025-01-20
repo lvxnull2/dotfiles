@@ -3,5 +3,6 @@ Host github-old
     Hostname github.com
     IdentityFile ~/.ssh/id_github
     IdentitiesOnly yes
+    AddKeysToAgent no
 
 # vim: ft=sshconfig

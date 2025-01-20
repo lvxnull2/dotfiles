@@ -3,5 +3,6 @@ Host girlkeep-rsync
     Hostname 10.0.0.7
     IdentityFile ~/.ssh/id_rsync
     IdentitiesOnly yes
+    AddKeysToAgent no
 
 # vim: ft=sshconfig

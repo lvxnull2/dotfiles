@@ -9,11 +9,11 @@ LICENSE
 {{- end }}
 
 {{- if ne .chezmoi.hostname "lesbnyan" }}
-.ssh/config.d/lesbnyan
+.ssh/config.d/10-lesbnyan
 {{- end }}
 
 {{- if ne .chezmoi.hostname "girlbian" }}
-.ssh/config.d/girlbian
+.ssh/config.d/10-girlbian
 {{- end }}
 
 # vim: ft=gitignore
